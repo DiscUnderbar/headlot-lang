@@ -1,6 +1,6 @@
 # Tennin 프로그래밍 언어 기획
 
-> 상태: 초안 (v0.3) · 작성일 2026-07-07 · 갱신일 2026-07-21
+> 상태: 초안 (alpha 0.1) · 작성일 2026-07-07 · 갱신일 2026-08-29
 > 구현 언어: **C++** · 목적: 실제 사용 가능한 도구
 
 ---
@@ -603,6 +603,7 @@ return (찾은값) to result;              @... result 함수에서 값을 갖�
 |--------|---------------------------------|
 | int    | 64 비트 정수                     |
 | double | 배정밀도 실수                     |
+| sizeT  | 인덱스 관련                       |
 | regex  | 정규식                           |
 | naming | 무엇의 이름을 표기할 때 사용        |
 | string | 문자열                           |
@@ -613,7 +614,7 @@ return (찾은값) to result;              @... result 함수에서 값을 갖�
 | Yulist   | 그냥 아무런 Yulist               |
 | Module   | Module                         |
 | nothing   | nothing                       |
-| NaN    | 숫자가 아닌데 숫자 0 / 0           |
+| NaN    | 숫자가 아닌데 숫자 0.0 / 0.0        |
 | never  | 값이 진짜 없음, TS 의 nver         |
 | byte[T]   | 8비트 T 타입                   |
 | short[T]  | 16비트 T 타입                  |
@@ -623,17 +624,22 @@ return (찾은값) to result;              @... result 함수에서 값을 갖�
 | typeof[T]  | T 타입 자체                   |
 | Array[...T] | ...T 타입의 배열              |
 | LinkedList[...T] | ...T 타입의 Linked list  |
-| Dictionary[...T] | ...T 타입의 딕셔너리       |
+| Dictionary[T, V] | T 가 key, V 가 value 타입의 딕셔너리. |
 | Would[T]   | 지금은 T 타입이 아니지만 T 타입이 될것이다. |
-| any         | 아무거나
+| any         | 아무거나 |
 
 일부 타입 제외 모든 타입은 64 비트를 소모한다.
+
+또한 함수는 `func[(1국 이름(1국이 받는 인자들)(1국의 소국1(소국의 타입), 1국의 소국2(소국의 타입) ...), 2국 이름(2국이 받는 인자들)(2국의 소국1, 2국의 소국2 ...) ...) => 반환 타입]` 이다. 또한 여기서 안써도 되는 부분은 소국 부분이랑 일부 () 을 만약 1국만 있다면 생략 가능하다. 이렇게 한다. `func[]`
 
 > 타입 이름은 camelCase(소문자 시작)를 원칙으로 하되, `NaN`은 예외다. Not a Number 는 표준적으로 `NaN`으로 표기하고 그 표기가 훨씬 익숙하기 때문이다. (익숙함이 규칙 일관성보다 이득인 유일한 예외로 둔다.)
 > 자료 구조 관련 타입은 PascalCase 를 쓴다.
 > 여기서 Disctionary, Array, Module 등은 자료구조인데 Yulist 말고 다른 특별한 자료구조가 아니라 그냥 똑같이 Yulist 다. 그래서 Disctionary 의 타입을 Yulist 로 해도 상관 없다.
 
-naming 은 특이한 타입인데 "" 로 감싸지 않고 바로 온다. 인자 함수의 naming 들이 이 `(...naming)` 이런 형식으로 온다.
+
+**sizeT**: index 관련이다. `a[1]` 여기서 **1 이 sizeT 다**. 참고로 sizeT 는 int 에 속한다. 그러니까 Array[...T] 가 Yulist 에 속하는것 처럼 sizeT 는 int 에 속한다. 그런데 **sizeT 를 int 처럼 쓰면 에러난다**. 하지만 **int 를 sizeT 처럼 쓰면 에러가 나진 않는다.** 왜 있냐면 Yulist 만들때 배열 같이 만들려면 그 타입을 직접 key 를 int, value 를 any 로 만들어야 하는데 이러면 문제가 key 를 int 로 하면 그냥 index 말고 키 - 값 으로 딕셔너리 형식으로 key 가 int 인 걸로 알게 된다. 그런데 key 의 타입을 sizeT 로 하면 index 처럼 Yulist 를 정의 가능하다.
+
+naming 은 특이한 타입인데 "" 로 감싸지 않고 바로 온다. 인자 함수의 naming 들이 이 `...naming` 이런 형식으로 온다.
 
 **falsy, truthy** 가 있다. 하지만 조건식에선 falsy 는 모두 똑같게 굴고 조건식에서 truthy 도 똑같이 군다.
 
@@ -644,7 +650,6 @@ nothing, NaN 다 falsy 값이다. Yulist 는 안이 비었든 말든 다 truthy 
 참고로 'a' == 97 이거 false 다 왜냐면 둘이 타입이 다르기 때문이다. 만약 'a' == 97 이거 true 로 하게 하고 싶으면 'a' ~= 97 이렇게 하면 된다.
 
 // TODO: Tennin 의 복잡한 인자 함수 기반 함수 시스템을 어떤 식으로 타입으로 표현할지 생각하기.
-// TODO: Tennin 의 Yulist 를 어떤식으로 타입으로 표기하게 할지 생각하기
 
 ### 타입 매직
 
@@ -815,6 +820,10 @@ nothing 은 일반 null 이랑 가장 비슷하다. 하지만 null, None 은 아
 
 nothing 은 전염되고 `1 + nothing` 은 nothing 이다. 이게 끝나는 지점이 ifNothing 이다.
 
+또한 계속 식 마다 여기에 nothing 이 들어가나 검사 해야 할텐데 사실 검사 안해도 된다. 왜냐면 nothing 은 NaN 의 성질을 띈다. NaN 은 전염이 된다. `1 + NaN` 은 NaN 이다. 그런데 매번 NaN 이 있나 검사 하지 않는다. nothing 도 똑같다. 이 성질을 이용한다.
+
+또한 nothing 은 아예 그러니까 정보가 없다는 정보, 예외 라는 정보 changeType("aa", int) 하면 에러 대신에 nothing 이라는 예외 라는 정보가 온다. 근데 여기서 이 정보가 없는거나 예외 라는 상황은 언제든 올수가 있다. 그래서 nothing 은 모든 타입에서 가능하다.
+
 // TODO: nothing 이 어떻게 작동하냐, nothing 의 매커니즘 만들기
 
 ### 포인터
@@ -830,8 +839,7 @@ X = 10;
 print(PointerX); @= 10
 ```
 
-참고로 이게 ref 랑 다른점은 ref 는 그냥 변수가 원래 Pointer 이 아닌데 Pointer 을 담을수 있는거고 `&<변수>` 는 그냥 포인터 자체를 값으로 담을수 있는거다. 그러니까 ref 는 변수에 포인터를 담는거고 `&<변수>` 이건 아예 그 포인터 자체인거다.\
-또한 ref 는 굳이 타입을 Pointer[T] 로 할 필요 없이 interception 으로 그 포인터를 반환하는거라 타입이 Pointer[T] 가 아니라 그냥 T 그러니까 타입인데 `&<변수>` 는 포인터 자체라서 타입을 Pointer[T] 로 강제한다.
+참고로 이게 ref 랑 다른점은 ref 는 그냥 변수가 원래 Pointer 이 아닌데 Pointer 을 담을수 있는거고 `&<변수>` 는 그냥 포인터 자체를 값으로 담을수 있는거다. 그러니까 ref 는 변수에 포인터를 담는거고 `&<변수>` 이건 아예 그 포인터 자체인거다. 또한 ref 는 굳이 타입을 Pointer[T] 로 할 필요 없이 interception 으로 그 포인터를 반환하는거라 타입이 Pointer[T] 가 아니라 그냥 T 그러니까 타입인데 `&<변수>` 는 포인터 자체라서 타입을 Pointer[T] 로 강제한다.
 
 ### 연산자
 
@@ -1313,6 +1321,12 @@ func void ():(
 // TODO: 함수 호출 방식을 봐꿔서 속도가 진짜 빠르게 하기
 
 */
+
+### lambda, mu
+
+lambda 는 그 함수를 만드는데 Zig 의 comptime 처럼 그 식을 expand 로 해주는 그런 식으로 함수를 만들어주고 mu 는 Zig 의 comptime 같은게 아니라 진짜 함수의 축약이다.
+
+// TODO: 완성
 
 ### Valesto (값언문)
 
