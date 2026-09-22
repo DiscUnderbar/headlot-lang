@@ -350,3 +350,4 @@ Tennin 의 FuncKind(함수의 종류 — LOOP/RETURN/DOING/사용자 정의 …)
 
 -- *lmp*
 -- *tenn*
+-- *hl*

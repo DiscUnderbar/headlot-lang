@@ -1,0 +1,21 @@
+;{이 언어는 그냥 바로 떠올려서 만들어본
+프로그래밍 언어다. 그냥 심심해서 진짜 문법은
+없고 이거 출력하는 예제만 있는거}
+
+show main, string, iostream, naming { ;{show main, string, iostream, naming 은 이걸 직접 main, string, iostream, naming 에 전달해서 여기에 include 한다는뜻 여기에 그리고 std:: 이런거 없이 그냥 바로 main._setup 이런식으로 씀}
+    [main, define] function [args] () [script] { ;{함수를 선언한다. 이름 정하는건 naming 으로 한다.}
+        eval (class naming._naming); ;{직접 여기에 ._naming 코드를 직접 class 형식으로 만들어논 다음 그걸 직접 실행한다.}
+        naming._setName(main); ;{이거에 이름을 직접 main 으로 짓기}
+        when main._start { ;{시작하면}
+            eval main._setup; ;{main 에 _setup 을 실행하고}
+            eval iostream._setup; ;{iostream 에 setup 을 실행하고}
+            eval (class string._main); ;{string._main 을 직접 클래스 형식으로 변환한뒤 실행}
+            main._code { ;{main._code 로 이제 이 코드를 직접 코드 형식으로 봐꿈}
+                iostream._line.write("Hello, World!"); ;{출력}
+            }
+        }
+        eval main._complete; ;{제대로 실행 되었다고 0 을 return 하는 main 을 직접 실행}
+    } [return.type] int
+}
+
+;{핵심 킬러 유스 케이스: 실행하는 방식을 자신의 맘대로 봐꿀수가 있다.}

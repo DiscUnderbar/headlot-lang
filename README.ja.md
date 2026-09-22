@@ -1,6 +1,6 @@
-# Tennin プログラミング言語
+# Headlot プログラミング言語
 
-すべてを実関数 `():{}`、国、そして関数で表現する言語である。関数型言語と呼ぶには少し無理があり、IOP・ROP という新しい概念が登場する。その概念については[設計ドキュメント](tennin-spec.ko.md)で確認できる。
+すべてを実関数 `():{}`、国、そして関数で表現する言語である。関数型言語と呼ぶには少し無理があり、IOP・ROP という新しい概念が登場する。その概念については[設計ドキュメント](headlot-spec.ja.md)で確認できる。
 
 - **1形** `"ああ"; "びび"` — 値。値が引数として渡される。(`("ああ"; "びび"):{}` の省略形)
 - **2形** `("ああ"; "びび")` — 括弧で囲んだ値（`;` で区切る）。引数として渡される。
@@ -9,12 +9,12 @@
 
 Hello, World!:
 
-```tennin
-using tenn;
+```headlot
+using hl;
 
 #main func helloWorld ():(
     Line.addLine("Hello, World");
 ):();
 ```
 
-* 文法: [tennin-spec](tennin-spec.jp.md)
+* 文法: [headlot-spec](headlot-spec.ja.md)

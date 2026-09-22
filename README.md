@@ -1,7 +1,7 @@
-# The Tennin Programming Language
+# The Headlot Programming Language
 
 A language that expresses everything through real functions `():{}`, countries, and functions. Calling it a functional language would be a bit of a stretch — it introduces two new concepts\
-0IOP and ROP, which are explained in the [design document](headlot-spec.ko.md).
+0IOP and ROP, which are explained in the [design document](headlot-spec.en.md).
 
 - **Form 1** `"aa"; "bb"` — Bare values. The values are passed as arguments. (Shorthand for `("aa"; "bb"):{}`.)
 - **Form 2** `("aa"; "bb")` — Values wrapped in parentheses, separated by `;`. Passed as arguments.
@@ -12,12 +12,12 @@ A language that expresses everything through real functions `():{}`, countries, 
 
 Hello, World!:
 
-```tennin
-using tenn;
+```Headlot
+using hl;
 
 #main func helloWorld ():(
     Line.addLine("Hello, World");
 ):();
 ```
 
--- *tenn*
+-- *hl*
